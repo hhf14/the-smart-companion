@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Arabic</key>
+	<string>ar</string>
+	<key>Czech</key>
+	<string>cs</string>
+	<key>Danish</key>
+	<string>da</string>
+	<key>German</key>
+	<string>de</string>
+	<key>English</key>
+	<string>en</string>
+	<key>Estonian</key>
+	<string>et</string>
+	<key>Finnish</key>
+	<string>fi</string>
+	<key>French</key>
+	<string>fr</string>
+	<key>Dutch</key>
+	<string>nl</string>
+	<key>Greek</key>
+	<string>el</string>
+	<key>Hebrew</key>
+	<string>he</string>
+	<key>Haitian Creole</key>
+	<string>ht</string>
+	<key>Hugarian</key>
+	<string>hu</string>
+	<key>Indonesian</key>
+	<string>id</string>
+	<key>Italian</key>
+	<string>it</string>
+	<key>Japanese</key>
+	<string>ja</string>
+	<key>Korean</key>
+	<string>ko</string>
+	<key>Lithuanian</key>
+	<string>lt</string>
+	<key>Latvian</key>
+	<string>lv</string>
+	<key>Norwegian</key>
+	<string>no</string>
+	<key>Polish</key>
+	<string>pl</string>
+	<key>Portuguese</key>
+	<string>pt</string>
+	<key>Romanian</key>
+	<string>ro</string>
+	<key>Spanish</key>
+	<string>es</string>
+	<key>Russian</key>
+	<string>ru</string>
+	<key>Slovak</key>
+	<string>sk</string>
+	<key>Slovene</key>
+	<string>sl</string>
+	<key>Swedish</key>
+	<string>sv</string>
+	<key>Thai</key>
+	<string>th</string>
+	<key>Turkish</key>
+	<string>tr</string>
+	<key>Ukrainian</key>
+	<string>uk</string>
+	<key>Vietnamese</key>
+	<string>vi</string>
+	<key>Simplified Chinese</key>
+	<string>zh-CHS</string>
+	<key>Traditional Chinese</key>
+	<string>zh-CHT</string>
+</dict>
+</plist>
