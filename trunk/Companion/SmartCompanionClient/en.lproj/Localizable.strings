@@ -1,0 +1,31 @@
+/* 
+ Localizable.strings
+ SmartCompanionClient
+ 
+ Created by Doan Van Cao on 6/18/12.
+ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+ */
+
+// For alert's headers
+"Error" = "Error";
+"PublishPhoto" = "Publish Photo";
+"TweetError" = "Unable to Tweet";
+"Tweeted" = "Tweeted";
+
+// For alert's messages
+"UnkownErrorMsg" = "Unexpected error occured. Please try again later.";
+"PleaseWaitMsg" = "Please Wait...";
+"PublishPhotoMsg" = "Publishing your photo, its information, and comment onto your Facebook wall. Please wait...";
+"ServerErrorMsg" = "The server returned an error";
+"TweetErrorMsg" = "You might be in Airplane Mode or not have service. Try again later.";
+"TweetedMsg" = "You successfully tweeted";
+
+// For alert's buttons
+"OK" = "OK";
+"Cancel" = "Cancel";
+"LogOut" = "Log Out";
+"PublishThePhoto" = "Publish to Facebook";
+"TweetThePhoto" = "Tweet the Photo";
+
+// Details Screen
+"CommentPlaceholderStr" = "Input comment here...";
