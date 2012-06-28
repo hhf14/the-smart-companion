@@ -20,9 +20,7 @@
 
 + (UIImage *)normalizeImage:(UIImage *)anImage 
 {
-    // COMMENTED - don't change the resolution, keep it original! - START
-//    int kMaxResolution = 320; // Or whatever
-    // COMMENTED - END
+    int kMaxResolution = 320; // Or whatever
     
     CGImageRef imgRef = anImage.CGImage;
     
@@ -32,19 +30,17 @@
     
     CGAffineTransform transform = CGAffineTransformIdentity;
     CGRect bounds = CGRectMake(0, 0, width, height);
-    // COMMENTED - don't change the resolution, keep it original! - START
-//    if (width > kMaxResolution || height > kMaxResolution) {
-//        CGFloat ratio = width/height;
-//        if (ratio > 1) {
-//            bounds.size.width = kMaxResolution;
-//            bounds.size.height = bounds.size.width / ratio;
-//        }
-//        else {
-//            bounds.size.height = kMaxResolution;
-//            bounds.size.width = bounds.size.height * ratio;
-//        }
-//    }
-    // COMMENTED - END
+    if (width > kMaxResolution || height > kMaxResolution) {
+        CGFloat ratio = width/height;
+        if (ratio > 1) {
+            bounds.size.width = kMaxResolution;
+            bounds.size.height = bounds.size.width / ratio;
+        }
+        else {
+            bounds.size.height = kMaxResolution;
+            bounds.size.width = bounds.size.height * ratio;
+        }
+    }
     
     CGFloat scaleRatio = bounds.size.width / width;
     CGSize imageSize = CGSizeMake(CGImageGetWidth(imgRef), CGImageGetHeight(imgRef));
