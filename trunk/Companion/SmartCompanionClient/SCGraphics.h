@@ -18,6 +18,7 @@
 + (UIImage *)binarizeImageUsingOtsuMethod:(UIImage *)inputImage;
 + (UIImage *)binarizeImageUsingLocalAdaptiveThresholding:(UIImage *)inputImage;
 + (UIImage *)removeNoisesForBinaryImage:(UIImage *)inputImage;
++ (UIImage *)setContrast:(NSInteger)nContrast forImage:(UIImage *)anImage;
 
 @end
 
