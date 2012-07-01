@@ -18,6 +18,44 @@
 
 @implementation SCGraphics
 
++ (UIImage *)setContrast:(NSInteger)nContrast forImage:(UIImage *)anImage
+{
+    nContrast = MAX(MIN(nContrast, 100), -100);
+    double contrast = (100.0 + nContrast) / 100.0;
+    contrast *= contrast;
+    
+    // Obtain image data
+    CFDataRef imageDataRef = CGDataProviderCopyData(CGImageGetDataProvider(anImage.CGImage)); 
+    UInt8 *imageData = (UInt8 *) CFDataGetBytePtr(imageDataRef); 
+    int length = CFDataGetLength(imageDataRef); 
+    
+    for (int i = 0; i < length; i++) {        
+        double pixel = imageData[i] / 255.0;
+        pixel -= 0.5;
+        pixel *= contrast;
+        pixel += 0.5;
+        pixel *= 255;
+        if (pixel < 0) pixel = 0;
+        if (pixel > 255) pixel = 255;
+        imageData[i] = (UInt8)pixel;
+    }
+    
+    CGContextRef ctx = CGBitmapContextCreate(imageData, 
+                                             CGImageGetWidth(anImage.CGImage), 
+                                             CGImageGetHeight(anImage.CGImage), 
+                                             8,
+                                             CGImageGetBytesPerRow(anImage.CGImage), 
+                                             CGImageGetColorSpace(anImage.CGImage), 
+                                             kCGImageAlphaPremultipliedLast); 
+    
+    
+    CGImageRef imageRef = CGBitmapContextCreateImage (ctx); 
+    UIImage* rawImage = [UIImage imageWithCGImage:imageRef]; 
+    CGContextRelease(ctx); 
+    
+    return rawImage;   
+}
+
 + (UIImage *)normalizeImage:(UIImage *)anImage 
 {
     int kMaxResolution = 320; // Or whatever
