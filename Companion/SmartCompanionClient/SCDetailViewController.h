@@ -17,11 +17,11 @@
     NSInteger selectedToLanguageIndex;
     NSDictionary *languageCode;
         
-    UIImage *image;    
+    UIImage *rootImage;    
 }
 
 @property (nonatomic) BOOL viewBeingDisapeared;
-@property (strong, nonatomic) UIImage *image;
+@property (strong, nonatomic) UIImage *rootImage;
 @property (strong, nonatomic) UIAlertView *waitingAlert;
 
 @property (weak, nonatomic) IBOutlet UITextView *noteTextView;

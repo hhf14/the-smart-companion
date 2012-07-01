@@ -17,7 +17,7 @@
 + (UIImage *)convertImageToGrayScale:(UIImage *)anImage;
 + (UIImage *)binarizeImageUsingOtsuMethod:(UIImage *)inputImage;
 + (UIImage *)binarizeImageUsingLocalAdaptiveThresholding:(UIImage *)inputImage;
-+ (UIImage *)detectBlobsWithImage:(UIImage *)inputImage;
++ (UIImage *)removeNoisesForBinaryImage:(UIImage *)inputImage;
 
 @end
 

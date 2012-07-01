@@ -106,7 +106,7 @@
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)sender
 {
-#if TRUE
+#if FALSE
     // Binarize the image
     UIImage *binaryImage = [SCGraphics binarizeImageUsingLocalAdaptiveThresholding:self.imageView.image];
     [self.imageView setImage:binaryImage];
@@ -121,8 +121,9 @@
 //    for (SCBlob *blob in blobList) {
 //        NSLog(@"%@", [blob toString]);
 //    }
-    UIImage *xx = [SCGraphics detectBlobsWithImage:self.image];
-    [self.imageView setImage:xx];
+    UIImage *binarizedImg = [SCGraphics binarizeImageUsingOtsuMethod:self.imageView.image];
+    UIImage *classifiedImg = [SCGraphics removeNoisesForBinaryImage:binarizedImg];
+    [self.imageView setImage:classifiedImg];
 #endif
 }
 
@@ -416,7 +417,7 @@
 {
     if ([segue.identifier isEqualToString:@"EditToDetails"]&&actionType==kSCDefault) {
         SCDetailViewController *detailsVC = (SCDetailViewController *)segue.destinationViewController;
-        detailsVC.image = self.imageView.image;
+        detailsVC.rootImage = self.imageView.image;
     }
 }
 

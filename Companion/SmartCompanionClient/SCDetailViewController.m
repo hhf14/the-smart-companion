@@ -23,12 +23,13 @@
 
 - (void)resizeImageView;
 - (void)tweetPhoto;
+- (void)publishToFacebook;
 
 @end
 
 @implementation SCDetailViewController
 @synthesize viewBeingDisapeared;
-@synthesize image;
+@synthesize rootImage;
 @synthesize waitingAlert;
 @synthesize noteTextView;
 @synthesize doneButton;
@@ -84,8 +85,8 @@
     [self.imageView addGestureRecognizer:tapGestureRecognizer];
     
     // Start extracting text from image
-    if (self.image) {
-        [self.imageView setImage:self.image];
+    if (self.rootImage) {
+        [self.imageView setImage:self.rootImage];
         
         // Show waiting alert
         waitingAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"PleaseWaitMsg", nil) message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil, nil];
@@ -97,7 +98,7 @@
         
         // Start detect module
         NSDictionary *paramsObj = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   self.image, @"Image",
+                                   self.rootImage, @"Image",
                                    @"Tesseract", @"Module", 
                                    @"eng", @"LangCode", nil];
         [NSThread detachNewThreadSelector:@selector(startExtractJob:) toTarget:self withObject:paramsObj];
@@ -118,7 +119,7 @@
     [self setToTextView:nil];
     [self setTranslateButton:nil];
     [self setImageView:nil];
-    [self setImage:nil];
+    [self setRootImage:nil];
     [self setWaitingAlert:nil];
     [self setDoneButton:nil];
     [self setNoteTextView:nil];
@@ -141,7 +142,7 @@
         langScreen.view.tag = sender == self.fromButton ? kSCFromLang : kSCToLang;
     } else if ([segue.identifier isEqualToString:@"PublishPhoto"]) {
         SCPublishPhotoViewController *publishScreen = (SCPublishPhotoViewController *)segue.destinationViewController;
-        [publishScreen setImage:self.image];
+        [publishScreen setImage:self.rootImage];
         [publishScreen setPhotoContent:self.toTextView.text];
     }
 }
@@ -149,10 +150,18 @@
 #pragma mark - Instance Methods
 - (void)startExtractJob:(id)object
 {
-#if FALSE
+#if TRUE        
     NSDictionary *dic = (NSDictionary *)object;
+    
+    // Automatically pre-process the image
+    UIImage *inputImage = [dic valueForKey:@"Image"];
+    // 1. Binarize the image
+    UIImage *binarizedImage = [SCGraphics binarizeImageUsingOtsuMethod:inputImage];
+    // 2. Remove non-text blocks within the image
+    UIImage *cleanImage = [SCGraphics removeNoisesForBinaryImage:binarizedImage];
+
     NSError *error = nil;
-    NSString *detectedText = [SCServerCommunication detectWithImage:[dic valueForKey:@"Image"] 
+    NSString *detectedText = [SCServerCommunication detectWithImage:cleanImage 
                                                              module:[dic valueForKey:@"Module"] 
                                                                lang:[dic valueForKey:@"LangCode"] 
                                                               error:&error];
@@ -207,10 +216,10 @@
     [mDic setValue:error forKey:@"Error"];
     [mDic setValue:translatedText forKey:@"TranslatedText"];
     
-    [self performSelectorOnMainThread:@selector(translationJobDidFinished:) withObject:mDic waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(translationJobDidFinish:) withObject:mDic waitUntilDone:NO];
 }
 
-- (void)translationJobDidFinished:(id)object
+- (void)translationJobDidFinish:(id)object
 {
     NSMutableDictionary *dic = (NSMutableDictionary *)object;
     NSError *error = [dic valueForKey:@"Error"];
@@ -262,7 +271,7 @@
     if ([self.toTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0) {
         [twitter setInitialText:[NSString stringWithFormat:@"\n\n\"%@\"", self.toTextView.text]];//optional
     }
-    [twitter addImage:self.image];
+    [twitter addImage:self.rootImage];
 
     if([TWTweetComposeViewController canSendTweet]){
         [self presentViewController:twitter animated:YES completion:nil]; 
@@ -299,7 +308,13 @@
     };
 }
 
+- (void)publishToFacebook
+{
+    [self performSegueWithIdentifier:@"PublishPhoto" sender:self];
+}
+
 #pragma mark - Action Handlers
+
 - (void)handlePinchGestureRecognizer:(UIPinchGestureRecognizer *)sender {
     // Pinch for displayImageView
     if (sender.state == UIGestureRecognizerStateBegan)
@@ -446,7 +461,7 @@
 {
     if (actionSheet.tag == 113) {
         if (buttonIndex == 0) { // Publish the Photo
-            [self performSegueWithIdentifier:@"PublishPhoto" sender:self];
+            [self publishToFacebook];
         } else if (buttonIndex == 1) { // Publish the Photo
             [self tweetPhoto];
         } else { // Close
