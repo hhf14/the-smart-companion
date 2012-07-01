@@ -138,7 +138,13 @@
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
     
     // Create bitmap content with current image size and grayscale colorspace
-    CGContextRef context = CGBitmapContextCreate(nil, anImage.size.width, anImage.size.height, 8, 0, colorSpace, kCGImageAlphaNone);
+    CGContextRef context = CGBitmapContextCreate(nil, 
+                                                 anImage.size.width, 
+                                                 anImage.size.height, 
+                                                 8, 
+                                                 anImage.size.width, 
+                                                 colorSpace, 
+                                                 kCGImageAlphaNone);
     
     // Draw image into current context, with specified rectangle
     // using previously defined context (with grayscale colorspace)
@@ -328,18 +334,32 @@
     return rawImage; 
 }
 
-#if TRUE
-+ (UIImage *)detectBlobsWithImage:(UIImage *)inputImage
++ (UIImage *)removeNoisesForBinaryImage:(UIImage *)binarizedImage
 {
-    // Convert to binary image
-    UIImage *binarizedImage = [SCGraphics binarizeImageUsingOtsuMethod:inputImage];
-    
     // Obtain image data
     CFDataRef imageDataRef = CGDataProviderCopyData(CGImageGetDataProvider(binarizedImage.CGImage)); 
     UInt8 *srcData = (UInt8 *) CFDataGetBytePtr(imageDataRef); 
+    CFIndex imgLength = CFDataGetLength(imageDataRef);
     
     int width = CGImageGetWidth(binarizedImage.CGImage);
     int height = CGImageGetHeight(binarizedImage.CGImage);
+    
+    if (imgLength != width * height) {
+        NSLog(@"The input image is not a binarized image!");
+        return nil;
+    }
+        
+    int matchVal = 0, minBlobMass = 0, maxBlobMass = -1;
+    int tableSize = width * height / 4;
+    
+    int *labelBuffer = (int *)calloc(width * height, sizeof(int));
+    int *labelTable = (int *)calloc(tableSize, sizeof(int));
+    
+    int *xMinTable = (int *)calloc(tableSize, sizeof(int));
+    int *xMaxTable = (int *)calloc(tableSize, sizeof(int));
+    int *yMinTable = (int *)calloc(tableSize, sizeof(int));
+    int *yMaxTable = (int *)calloc(tableSize, sizeof(int));
+    int *massTable = (int *)calloc(tableSize, sizeof(int));
     
     // This is the neighbouring pixel pattern. For position X, A, B, C & D are checked
     // A B C
@@ -352,55 +372,6 @@
     int dPtr = -1;
     
     int label = 1;
-    
-#if FALSE
-    int *labelBuffer = (int *)malloc(width * height * sizeof(int));
-#else
-    int labelBuffer[width * height];
-#endif
-    int matchVal = 255, minBlobMass = 0, maxBlobMass = -1;
-
-    // The maximum number of blobs is given by an image filled with equally spaced single pixel
-    // blobs. For images with less blobs, memory will be wasted, but this approach is simpler and
-    // probably quicker than dynamically resizing arrays
-    int tableSize = width * height / 4;
-    
-#if FALSE
-    int *labelTable = (int *)malloc(tableSize * sizeof(int));
-    int *xMinTable = (int *)malloc(tableSize * sizeof(int));
-    int *xMaxTable = (int *)malloc(tableSize * sizeof(int));
-    int *yMinTable = (int *)malloc(tableSize * sizeof(int));
-    int *yMaxTable = (int *)malloc(tableSize * sizeof(int));
-    int *massTable = (int *)malloc(tableSize * sizeof(int));
-#else
-    int labelTable[tableSize];
-    int xMinTable[tableSize];
-    int xMaxTable[tableSize];
-    int yMinTable[tableSize];
-    int yMaxTable[tableSize];
-    int massTable[tableSize];
-#endif
-    
-#if FALSE
-    memset(labelBuffer, 0, width * height * sizeof(int));
-    memset(labelTable, 0, tableSize * sizeof(int));
-    memset(xMinTable, 0, tableSize * sizeof(int));
-    memset(xMaxTable, 0, tableSize * sizeof(int));
-    memset(yMinTable, 0, tableSize * sizeof(int));
-    memset(yMaxTable, 0, tableSize * sizeof(int));
-    memset(massTable, 0, tableSize * sizeof(int));   
-#else
-    int length = width * height;
-    for (int i = 0; i < length; i++) {
-        labelBuffer[i] = 0;
-    }    
-//    memset(labelBuffer, 0, sizeof(labelBuffer));
-    memset(labelTable, 0, sizeof(labelTable));
-    memset(xMinTable, 0, sizeof(xMinTable));
-    memset(yMinTable, 0, sizeof(yMinTable));
-    memset(yMaxTable, 0, sizeof(yMaxTable));
-    memset(xMaxTable, 0, sizeof(xMaxTable));
-#endif
     
     // Iterate through pixels looking for connected regions. Assigning labels
     for (int y=0 ; y<height ; y++)
@@ -484,8 +455,6 @@
             int l = i;
             while (l != labelTable[l]) l = labelTable[l];
             labelTable[i] = l;
-//            
-//            NSLog(@"%d", labelTable[i]);
         }
         else
         {
@@ -497,275 +466,80 @@
             
             if (massTable[i] >= minBlobMass && (massTable[i] <= maxBlobMass || maxBlobMass == -1))
             {
-                SCBlob *blob = [[SCBlob alloc] initWithXMax:xMaxTable[i] xMin:xMinTable[i] yMax:yMaxTable[i] yMin:yMinTable[i] mass:massTable[i]];
+                SCBlob *blob = [[SCBlob alloc] initWithXMax:xMaxTable[i] 
+                                                       xMin:xMinTable[i] 
+                                                       yMax:yMaxTable[i] 
+                                                       yMin:yMinTable[i] 
+                                                       mass:massTable[i]];
                 [blobList addObject:blob];
             }
         }
     }
     
-    UIColor *color1 = [[UIColor alloc] initWithRed:((float)103/255) 
-                                             green:((float)121/255) 
-                                              blue:((float)255/255) 
-                                             alpha:((float)255/255)];
-    UIColor *color2 = [[UIColor alloc] initWithRed:((float)249/255) 
-                                             green:((float)255/255) 
-                                              blue:((float)139/255) 
-                                             alpha:((float)255/255)];
-    UIColor *color3 = [[UIColor alloc] initWithRed:((float)140/255) 
-                                             green:((float)255/255) 
-                                              blue:((float)127/255) 
-                                             alpha:((float)255/255)];
-    UIColor *color4 = [[UIColor alloc] initWithRed:((float)167/255) 
-                                             green:((float)254/255) 
-                                              blue:((float)255/255) 
-                                             alpha:((float)255/255)];
-    UIColor *color5 = [[UIColor alloc] initWithRed:((float)255/255) 
-                                             green:((float)111/255) 
-                                              blue:((float)71/255) 
-                                             alpha:((float)255/255)];
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:color1, color2, color3, color4, color5, nil];
+    CGContextRef ctx = CGBitmapContextCreate(srcData, 
+                                             CGImageGetWidth(binarizedImage.CGImage), 
+                                             CGImageGetHeight(binarizedImage.CGImage), 
+                                             8,
+                                             CGImageGetBytesPerRow(binarizedImage.CGImage), 
+                                             CGImageGetColorSpace(binarizedImage.CGImage),
+                                             kCGImageAlphaNone); 
+    
+    
+    CGContextTranslateCTM(ctx, 0.0, height);
+    CGContextScaleCTM(ctx, 1.0, -1.0);
 
-    // If dst buffer provided, fill with coloured blobs
-    int *dstData = (int *)malloc(width * height * 4 * sizeof(int));
-    if (dstData != nil)
-    {
-        for (int i=label-1 ; i>0 ; i--)
-        {
-            if (labelTable[i] != i)
-            {
-                int l = i;
-                while (l != labelTable[l]) l = labelTable[l];
-                labelTable[i] = l;
-            }
-        }
-        
-        // Renumber lables into sequential numbers, starting with 0
-        int newLabel = 0;
-        for (int i=1 ; i<label ; i++)
-        {
-            if (labelTable[i] == i) labelTable[i] = newLabel++;
-            else labelTable[i] = labelTable[labelTable[i]];
-        }
-        
-        srcPtr = 0;
-        int dstPtr = 0;
-        while (srcPtr < width * height)
-        {
-            if (srcData[srcPtr] == matchVal)
-            {
-                int c = labelTable[labelBuffer[srcPtr]] % [colorArray count];
-                float red = 0, green = 0, blue = 0, alpha = 0;
-                [((UIColor *)[colorArray objectAtIndex:c]) getRed:&red green:&green blue:&blue alpha:&alpha];
-                dstData[dstPtr]	= (int)(red * 255);
-                dstData[dstPtr+1] = (int)(green * 255);
-                dstData[dstPtr+2] = (int)(blue * 255);
-                dstData[dstPtr+3] = (int)(alpha * 255);
-            }
-            else
-            {
-                dstData[dstPtr]	= 0;
-                dstData[dstPtr+1] = 0;
-                dstData[dstPtr+2] = 0;
-                dstData[dstPtr+3] = 0;
-            }
-            
-            srcPtr ++;
-            dstPtr += 4;
+    CGContextBeginPath(ctx);
+    
+    // calculate mean & standard deviation of blob's height values
+    float bMean = 0, bSquareSum = 0;
+    for (int i = 0; i < blobList.count; i++) {
+        SCBlob *iBlob = (SCBlob *)[blobList objectAtIndex:i];
+        int blobHeight = iBlob.yMax - iBlob.yMin;
+        bMean += blobHeight;
+        bSquareSum += blobHeight * blobHeight;
+        if (i == blobList.count - 1) {
+            bMean /= blobList.count;
+            bSquareSum /= blobList.count;
         }
     }
+    
+    float bStarndardDeviation = sqrtf(bSquareSum - (bMean * bMean));
+    // define a maximum value for height of a valid blob
+    float bMax = MAX(bMean + 3 * bStarndardDeviation, 0);
+
+#if TRUE
+    CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
+    for (SCBlob *blob in blobList) {
         
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef ctx = CGBitmapContextCreate(dstData, 
-                                             CGImageGetWidth(binarizedImage.CGImage), 
-                                             CGImageGetHeight(binarizedImage.CGImage), 
-                                             8,
-                                             4 * CGImageGetBytesPerRow(binarizedImage.CGImage), 
-                                             colorSpace, 
-                                             kCGImageAlphaPremultipliedLast); 
-    
-    CGImageRef imageRef = CGBitmapContextCreateImage (ctx); 
-    UIImage* rawImage = [UIImage imageWithCGImage:imageRef]; 
-    CGColorSpaceRelease(colorSpace);
-    CGContextRelease(ctx); 
-    
-    return rawImage;    
-}
+        CGFloat rWidth = blob.xMax - blob.xMin;
+        CGFloat rHeight = blob.yMax - blob.yMin;
+        CGRect blobRect = CGRectMake(blob.xMin, blob.yMin, rWidth + 1, rHeight + 1);
+        
+        // remove blobs whose height value is considered as out-of-valid-range
+        if (rHeight > bMax) {
+            CGContextFillRect(ctx, blobRect);
+        }
+    }
 #else
-+ (UIImage *)detectBlobsWithImage:(UIImage *)inputImage
-{
-    // Convert to binary image
-    UIImage *binarizedImage = [SCGraphics binarizeImageUsingOtsuMethod:inputImage];
-    
-    // Obtain image data
-    CFDataRef imageDataRef = CGDataProviderCopyData(CGImageGetDataProvider(binarizedImage.CGImage)); 
-    UInt8 *srcData = (UInt8 *) CFDataGetBytePtr(imageDataRef); 
-    
-    int width = CGImageGetWidth(binarizedImage.CGImage);
-    int height = CGImageGetHeight(binarizedImage.CGImage);
-    int length = width * height;
-    
-    NSMutableArray *labels = [[NSMutableArray alloc] initWithCapacity:(width * height)];
-    NSMutableDictionary *equivalences = [[NSMutableDictionary alloc] initWithCapacity:0];
-    for (int i = 0; i < length; i++) {
-        // Assign 0 label for all pixels
-        [labels addObject:[NSNumber numberWithInt:0]];
-    }
+    CGContextBeginPath(ctx);
+    for (SCBlob *blob in blobList) {
         
-    // Iterate through pixels looking for connected regions. Assigning labels
-    int label = 1;
-    for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-            
-            // Check for black pixels only
-            if (srcData[y * width + x] == 255) {
-                // Get labels of its four neighbors
-                int mIndex = y * width + x;
-                int uIndex = ((y - 1) * width + x);
-                int dIndex = ((y + 1) * width + x);
-                int lIndex = (y * width + x - 1);
-                int rIndex = (y * width + x + 1);
-                
-                int uNeighbor = y > 0 ? [[labels objectAtIndex:uIndex] intValue] : 0;
-                int dNeighbor = y < height - 1 ? [[labels objectAtIndex:dIndex] intValue] : 0;
-                int lNeighbor = x > 0 ? [[labels objectAtIndex:lIndex] intValue] : 0;
-                int rNeighbor = x < width - 1 ? [[labels objectAtIndex:rIndex] intValue] : 0;
-                
-                int nUnlabeleds = 0;
-                NSArray *neighbors = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:uNeighbor], [NSNumber numberWithInt:dNeighbor], [NSNumber numberWithInt:lNeighbor], [NSNumber numberWithInt:rNeighbor], nil];
-                for (NSNumber *neighbor in neighbors) {
-                    if ([neighbor intValue] == 0) {
-                        nUnlabeleds++;
-                    }
-                }
-                
-                if (nUnlabeleds == 4) { // If all four neighbors are 0, assign a new label to the pixel
-                    [labels replaceObjectAtIndex:mIndex withObject:[NSNumber numberWithInt:label++]];
-                } else { 
-                    
-                    // 1. If only one neighbor has been labeled (!= 0), assign its label to the pixel                    
-                    // 2. If more than one of the neighbors have been labeled (!= 0), assign one of the labels to the pixel and make a note of the equivalences.
-                    
-                    for (NSNumber *neighbor in neighbors) {
-                        if ([neighbor intValue] > 0) {
-                            [labels replaceObjectAtIndex:mIndex withObject:neighbor];
-                            break;
-                        }
-                    }
-                    
-                    if (nUnlabeleds < 3) {
-                        // Mark all equivalences
-                        for (int i = 0; i < neighbors.count - 1; i++) {
-                            for (int j = i + 1; j < neighbors.count; j++) {
-                                int label1 = [((NSNumber *)[neighbors objectAtIndex:i]) intValue];
-                                int label2 = [((NSNumber *)[neighbors objectAtIndex:j]) intValue];                                
-                                if (label1 == label2) {
-                                    if ([[equivalences allKeys] containsObject:[neighbors objectAtIndex:i]]) {
-                                        NSMutableSet *myEquivalences = [equivalences objectForKey:[neighbors objectAtIndex:i]];
-                                        [myEquivalences addObject:[neighbors objectAtIndex:j]];
-                                        [equivalences setObject:myEquivalences forKey:[neighbors objectAtIndex:i]];
-                                    } else {
-                                        NSMutableSet *myEquivalences = [[NSMutableSet alloc] initWithObjects:[neighbors objectAtIndex:j], nil];
-                                        [equivalences setObject:myEquivalences forKey:[neighbors objectAtIndex:i]];
-                                    }
-                                    if ([[equivalences allKeys] containsObject:[neighbors objectAtIndex:j]]) {
-                                        NSMutableSet *myEquivalences = [equivalences objectForKey:[neighbors objectAtIndex:j]];
-                                        [myEquivalences addObject:[neighbors objectAtIndex:i]];
-                                        [equivalences setObject:myEquivalences forKey:[neighbors objectAtIndex:j]];
-                                    } else {
-                                        NSMutableSet *myEquivalences = [[NSMutableSet alloc] initWithObjects:[neighbors objectAtIndex:i], nil];
-                                        [equivalences setObject:myEquivalences forKey:[neighbors objectAtIndex:j]];
-                                    }
-                                }
-                            }
-                        }
-                    } 
-                } 
-            }
-        }
+        CGFloat rWidth = blob.xMax - blob.xMin;
+        CGFloat rHeight = blob.yMax - blob.yMin;
+        CGRect blobRect = CGRectMake(blob.xMin, blob.yMin, rWidth + 1, rHeight + 1);
+        
+        CGContextAddRect(ctx, blobRect);
     }
-    
-//    for (NSNumber *aKey in equivalences.allKeys) {
-//        NSMutableString *toString = [NSMutableString stringWithString:[NSString stringWithFormat:@"%i: ", aKey.intValue]];
-//        for (NSNumber *anItem in [equivalences objectForKey:aKey]) {
-//            [toString appendFormat:@"%i, ", [anItem intValue]];
-//        }
-//        NSLog(@"%@", toString);
-//    }
-    
-    // Normalize equivelences
-    
-    // 
-    
-    UIColor *color1 = [[UIColor alloc] initWithRed:((float)103/255) 
-                                             green:((float)121/255) 
-                                              blue:((float)255/255) 
-                                             alpha:((float)255/255)];
-    UIColor *color2 = [[UIColor alloc] initWithRed:((float)249/255) 
-                                             green:((float)255/255) 
-                                              blue:((float)139/255) 
-                                             alpha:((float)255/255)];
-    UIColor *color3 = [[UIColor alloc] initWithRed:((float)140/255) 
-                                             green:((float)255/255) 
-                                              blue:((float)127/255) 
-                                             alpha:((float)255/255)];
-    UIColor *color4 = [[UIColor alloc] initWithRed:((float)167/255) 
-                                             green:((float)254/255) 
-                                              blue:((float)255/255) 
-                                             alpha:((float)255/255)];
-    UIColor *color5 = [[UIColor alloc] initWithRed:((float)255/255) 
-                                             green:((float)111/255) 
-                                              blue:((float)71/255) 
-                                             alpha:((float)255/255)];
-    NSArray *colorArray = [[NSArray alloc] initWithObjects:color1, color2, color3, color4, color5, nil];
-    
-    // If dst buffer provided, fill with coloured blobs
-    int *dstData = (int *)malloc(width * height * 4 * sizeof(int));
-    if (dstData != nil)
-    {        
-        int srcPtr = 0;
-        int dstPtr = 0;
-        while (srcPtr < width * height)
-        {
-            if (srcData[srcPtr] == 255)
-            {
-                int c = [[labels objectAtIndex:srcPtr] intValue] % [colorArray count];
-                float red = 0, green = 0, blue = 0, alpha = 0;
-                [((UIColor *)[colorArray objectAtIndex:c]) getRed:&red green:&green blue:&blue alpha:&alpha];
-                dstData[dstPtr]	= (int)(red * 255);
-                dstData[dstPtr+1] = (int)(green * 255);
-                dstData[dstPtr+2] = (int)(blue * 255);
-                dstData[dstPtr+3] = (int)(alpha * 255);
-            }
-            else
-            {
-                dstData[dstPtr]	= 0;
-                dstData[dstPtr+1] = 0;
-                dstData[dstPtr+2] = 0;
-                dstData[dstPtr+3] = 0;
-            }
-            
-            srcPtr ++;
-            dstPtr += 4;
-        }
-    }
-    
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef ctx = CGBitmapContextCreate(dstData, 
-                                             CGImageGetWidth(binarizedImage.CGImage), 
-                                             CGImageGetHeight(binarizedImage.CGImage), 
-                                             8,
-                                             4 * CGImageGetBytesPerRow(binarizedImage.CGImage), 
-                                             colorSpace, 
-                                             kCGImageAlphaPremultipliedLast); 
-    
+    CGContextDrawPath(ctx, kCGPathStroke);
+#endif
+        
     CGImageRef imageRef = CGBitmapContextCreateImage (ctx); 
     UIImage* rawImage = [UIImage imageWithCGImage:imageRef]; 
-    CGColorSpaceRelease(colorSpace);
     CGContextRelease(ctx); 
     
     return rawImage;    
 }
-#endif
+
 @end
 
 @implementation SCBlob

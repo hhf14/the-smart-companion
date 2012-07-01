@@ -81,6 +81,7 @@
 }
 
 #pragma mark - Instance Methods
+
 - (void)startTranslationJob:(id)object 
 {
     NSDictionary *dic = (NSDictionary *)object;
@@ -94,10 +95,10 @@
     [mDic setValue:error forKey:@"Error"];
     [mDic setValue:translatedText forKey:@"TranslatedText"];
     
-    [self performSelectorOnMainThread:@selector(translationJobDidFinished:) withObject:mDic waitUntilDone:YES];
+    [self performSelectorOnMainThread:@selector(translationJobDidFinish:) withObject:mDic waitUntilDone:YES];
 }
 
-- (void)translationJobDidFinished:(id)object
+- (void)translationJobDidFinish:(id)object
 {
     NSMutableDictionary *mDic = (NSMutableDictionary *)object;
     NSError *error = [mDic valueForKey:@"Error"];
@@ -120,6 +121,7 @@
 }
 
 #pragma mark - Action Handlers
+
 - (IBAction)handleDoneButton:(id)sender {
     if (self.fromTextView.isFirstResponder) {
         [self.fromTextView resignFirstResponder];
@@ -173,6 +175,7 @@
 }
 
 #pragma mark - UITextViewDelegate Methods
+
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [self.doneButton setEnabled:YES];
@@ -192,6 +195,7 @@
 }
 
 #pragma mark - SCLanguageViewController Methods
+
 - (void)languageViewController:(SCLanguageViewController *)controller didChooseLanguage:(NSString *)language {
     if (controller.view.tag == kSCFromLang) {
         [fromButton setTitle:language forState:UIControlStateNormal];
@@ -200,4 +204,5 @@
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 @end
