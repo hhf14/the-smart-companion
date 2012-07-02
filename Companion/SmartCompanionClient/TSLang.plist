@@ -3,68 +3,68 @@
 <plist version="1.0">
 <dict>
 	<key>Arabic</key>
-	<string>ar</string>
+	<string>ara</string>
 	<key>Czech</key>
-	<string>cs</string>
+	<string>ces</string>
 	<key>Danish</key>
-	<string>da</string>
+	<string>dan</string>
 	<key>German</key>
-	<string>de</string>
+	<string>deu</string>
 	<key>English</key>
-	<string>en</string>
+	<string>eng</string>
 	<key>Finnish</key>
-	<string>fi</string>
+	<string>fin</string>
 	<key>French</key>
-	<string>fr</string>
+	<string>fra</string>
 	<key>Dutch</key>
-	<string>nl</string>
+	<string>nld</string>
 	<key>Greek</key>
-	<string>el</string>
+	<string>ell</string>
 	<key>Hebrew</key>
-	<string>he</string>
+	<string>heb</string>
 	<key>Hugarian</key>
-	<string>hu</string>
+	<string>hun</string>
 	<key>Indonesian</key>
-	<string>id</string>
+	<string>ind</string>
 	<key>Italian</key>
-	<string>it</string>
+	<string>ita</string>
 	<key>Japanese</key>
-	<string>ja</string>
+	<string>jpn</string>
 	<key>Korean</key>
-	<string>ko</string>
+	<string>kor</string>
 	<key>Lithuanian</key>
-	<string>lt</string>
+	<string>lit</string>
 	<key>Latvian</key>
-	<string>lv</string>
+	<string>lav</string>
 	<key>Norwegian</key>
-	<string>no</string>
+	<string>nor</string>
 	<key>Polish</key>
-	<string>pl</string>
+	<string>pol</string>
 	<key>Portuguese</key>
-	<string>pt</string>
+	<string>por</string>
 	<key>Romanian</key>
-	<string>ro</string>
+	<string>ron</string>
 	<key>Spanish</key>
-	<string>es</string>
+	<string>spa</string>
 	<key>Russian</key>
-	<string>ru</string>
+	<string>rus</string>
 	<key>Slovak</key>
-	<string>sk</string>
+	<string>slk</string>
 	<key>Slovene</key>
-	<string>sl</string>
+	<string>slv</string>
 	<key>Swedish</key>
-	<string>sv</string>
+	<string>swe</string>
 	<key>Thai</key>
-	<string>th</string>
+	<string>tha</string>
 	<key>Turkish</key>
-	<string>tr</string>
+	<string>tur</string>
 	<key>Ukrainian</key>
-	<string>uk</string>
+	<string>ukr</string>
 	<key>Vietnamese</key>
-	<string>vi</string>
+	<string>vie</string>
 	<key>Simplified Chinese</key>
-	<string>zh-CHS</string>
+	<string>chi_sim</string>
 	<key>Traditional Chinese</key>
-	<string>zh-CHT</string>
+	<string>chi_tra</string>
 </dict>
 </plist>

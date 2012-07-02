@@ -134,12 +134,12 @@
             
     if(searching) {
         if ([searchResult count] > indexPath.row) {
-            cell.textLabel.text = [searchResult objectAtIndex:indexPath.row];
+            cell.textLabel.text = NSLocalizedString([searchResult objectAtIndex:indexPath.row], nil);
         }
     } else {
         if ([languageList count] > indexPath.row) {
             //First get the dictionary object
-            cell.textLabel.text = [languageList objectAtIndex:indexPath.row];
+            cell.textLabel.text = NSLocalizedString([languageList objectAtIndex:indexPath.row], nil);
         }
     }
     return cell;

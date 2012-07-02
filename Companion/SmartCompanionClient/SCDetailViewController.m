@@ -97,10 +97,17 @@
         [loadingIndicator startAnimating];
         
         // Start detect module
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"AppConfigs" ofType:@"plist"];
+        NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+        NSString *sourceLang = [settings valueForKey:kSCSourceLangKey];
+        plistPath = [[NSBundle mainBundle] pathForResource:@"TSLang" ofType:@"plist"];
+        settings = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+        NSString *langCode = [settings valueForKey:sourceLang];
+        
         NSDictionary *paramsObj = [NSDictionary dictionaryWithObjectsAndKeys:
                                    self.rootImage, @"Image",
                                    @"Tesseract", @"Module", 
-                                   @"eng", @"LangCode", nil];
+                                   langCode, @"LangCode", nil];
         [NSThread detachNewThreadSelector:@selector(startExtractJob:) toTarget:self withObject:paramsObj];
     }
 }
