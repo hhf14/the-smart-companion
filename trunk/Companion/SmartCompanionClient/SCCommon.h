@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define kSCSourceLangKey @"Source Language"
+
 #pragma mark -
 #pragma mark Constants Definition
 

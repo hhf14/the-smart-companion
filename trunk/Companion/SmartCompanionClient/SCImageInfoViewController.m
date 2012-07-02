@@ -42,8 +42,18 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    NSString *sourceLang = @"English"; // default source lang
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"AppConfigs" ofType:@"plist"];
+    NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+    if (settings.count > 0 && [settings.allKeys containsObject:kSCSourceLangKey]) {
+        sourceLang = [settings valueForKey:kSCSourceLangKey];
+    } else {
+        [settings setValue:sourceLang forKey:kSCSourceLangKey];
+        [settings writeToFile:plistPath atomically:YES];
+    }
+    
     tableContents = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                     @"Vietnamese", kSCCellTitle, nil];
+                     NSLocalizedString(sourceLang, nil), kSCCellTitle, nil];
 }
 
 - (void)viewDidUnload
@@ -146,7 +156,14 @@
 #pragma mark - SCLanguageViewController Methods
 
 - (void)languageViewController:(SCLanguageViewController *)controller didChooseLanguage:(NSString *)language {
-    [tableContents setValue:language forKey:kSCCellTitle];
+    
+    [tableContents setValue:NSLocalizedString(language, nil) forKey:kSCCellTitle];
+    
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"AppConfigs" ofType:@"plist"];
+    NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:plistPath];
+    [settings setValue:language forKey:kSCSourceLangKey];
+    [settings writeToFile:plistPath atomically:YES];
+    
     [self.navigationController popViewControllerAnimated:YES];
     [self.tableView reloadData];
 }

@@ -29,3 +29,38 @@
 
 // Details Screen
 "CommentPlaceholderStr" = "Input comment here...";
+
+// Languages
+"Slovak" = "Slovak";
+"Italian" = "Italian";
+"Simplified Chinese" = "Simplified Chinese";
+"Lithuanian" = "Lithuanian";
+"Norwegian" = "Norwegian";
+"Ukrainian" = "Ukrainian";
+"Korean" = "Korean";
+"Traditional Chinese" = "Traditional Chinese";
+"Japanese" = "Japanese";
+"Russian" = "Russian";
+"Thai" = "Thai";
+"Spanish" = "Spanish";
+"Arabic" = "Arabic";
+"Hugarian" = "Hugarian";
+"Latvian" = "Latvian";
+"Swedish" = "Swedish";
+"Hebrew" = "Hebrew";
+"Indonesian" = "Indonesian";
+"Danish" = "Danish";
+"Vietnamese" = "Vietnamese";
+"German" = "German";
+"Greek" = "Greek";
+"Romanian" = "Romanian";
+"Polish" = "Polish";
+"Dutch" = "Dutch";
+"Finnish" = "Finnish";
+"English" = "English";
+"Czech" = "Czech";
+"French" = "French";
+"Turkish" = "Turkish";
+"Slovene" = "Slovene";
+"Portuguese" = "Portuguese";
+

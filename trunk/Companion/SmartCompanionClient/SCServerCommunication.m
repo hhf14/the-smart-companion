@@ -7,7 +7,6 @@
 //
 
 #import "SCServerCommunication.h"
-#import "SCCommon.h"
 #import "NSData+Base64.h"
 #import "SCUtility.h"
 
@@ -36,6 +35,7 @@ static NSString *kSCExtractTextRequest = @"http://%@/cgi-bin/DetectModule.exe?mo
     DLog(@"IMAGE_LENGTH: %i", [stringBasedImage length]);
     
     NSString *postString = [SCServerCommunication generateSOAPMessageWithLangString:langCode stringBasedImage:stringBasedImage];
+    DLog(@"postString: %@", postString);
     
     NSData *postData = [postString dataUsingEncoding:NSUTF8StringEncoding];
     

@@ -35,6 +35,8 @@
 		4CDF3640158F9003002C9A4F /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CDF3638158F9003002C9A4F /* libfacebook_ios_sdk.a */; };
 		4CDF3644158F9291002C9A4F /* icon_facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CDF3643158F9291002C9A4F /* icon_facebook.png */; };
 		4CF20C5D15A18DD0009B8862 /* SCImageInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF20C5C15A18DD0009B8862 /* SCImageInfoViewController.m */; };
+		4CF20C6215A191F5009B8862 /* AppConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CF20C6115A191F5009B8862 /* AppConfigs.plist */; };
+		4CF20C6615A1980F009B8862 /* TSLang.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CF20C6515A1980F009B8862 /* TSLang.plist */; };
 		4CF280CF1546F67900A8956D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF280CE1546F67900A8956D /* UIKit.framework */; };
 		4CF280D11546F67900A8956D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF280D01546F67900A8956D /* Foundation.framework */; };
 		4CF280D31546F67900A8956D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF280D21546F67900A8956D /* CoreGraphics.framework */; };
@@ -124,6 +126,8 @@
 		4CDF3643158F9291002C9A4F /* icon_facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_facebook.png; sourceTree = "<group>"; };
 		4CF20C5B15A18DD0009B8862 /* SCImageInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCImageInfoViewController.h; sourceTree = "<group>"; };
 		4CF20C5C15A18DD0009B8862 /* SCImageInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCImageInfoViewController.m; sourceTree = "<group>"; };
+		4CF20C6115A191F5009B8862 /* AppConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppConfigs.plist; sourceTree = "<group>"; };
+		4CF20C6515A1980F009B8862 /* TSLang.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TSLang.plist; sourceTree = "<group>"; };
 		4CF280CA1546F67900A8956D /* SmartCompanionClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartCompanionClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF280CE1546F67900A8956D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4CF280D01546F67900A8956D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -312,10 +316,12 @@
 				4CF2812D15470C6600A8956D /* Images */,
 				4CF280D61546F67900A8956D /* SmartCompanionClient-Info.plist */,
 				4CBB30D11562BCD7003B20DD /* MSLang.plist */,
+				4CF20C6515A1980F009B8862 /* TSLang.plist */,
+				4CC34C4B158F3FB20006C5E8 /* Localizable.strings */,
 				4CF280D71546F67900A8956D /* InfoPlist.strings */,
 				4CF280DA1546F67A00A8956D /* main.m */,
 				4CF280DC1546F67A00A8956D /* SmartCompanionClient-Prefix.pch */,
-				4CC34C4B158F3FB20006C5E8 /* Localizable.strings */,
+				4CF20C6115A191F5009B8862 /* AppConfigs.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -470,6 +476,8 @@
 				4CDF3644158F9291002C9A4F /* icon_facebook.png in Resources */,
 				4CD4FDE91594B02E00B8C2E9 /* noavatar.png in Resources */,
 				4C7B72AE1599B1B400524701 /* icon_blog.png in Resources */,
+				4CF20C6215A191F5009B8862 /* AppConfigs.plist in Resources */,
+				4CF20C6615A1980F009B8862 /* TSLang.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
