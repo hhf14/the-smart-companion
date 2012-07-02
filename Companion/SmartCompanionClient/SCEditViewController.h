@@ -51,6 +51,7 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *redoButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *drawButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *infoButton;
 
 @property (strong, nonatomic) NSMutableArray *historyData;
 @property (nonatomic) NSInteger historyStep;
@@ -61,5 +62,6 @@ typedef enum {
 - (IBAction)handleActionButton:(id)sender;
 - (IBAction)handleRightBarButton:(id)sender;
 - (IBAction)handleDrawButton:(id)sender;
+- (IBAction)handleInfoButton:(id)sender;
 
 @end

@@ -444,9 +444,9 @@
                                             <action selector="handleRedoButton:" destination="QcA-hw-Huf" id="d1m-ls-1GO"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="action" id="CvT-M2-W6a">
+                                    <barButtonItem title="Info" id="CvT-M2-W6a">
                                         <connections>
-                                            <action selector="handleActionButton:" destination="QcA-hw-Huf" id="9Pi-yo-pzB"/>
+                                            <action selector="handleInfoButton:" destination="nQL-E9-L4d" id="2oE-hM-LNb"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -470,19 +470,55 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="actionButton" destination="CvT-M2-W6a" id="CQR-o1-DrF"/>
                         <outlet property="cropButton" destination="Ody-yA-MLC" id="XG0-xG-XOC"/>
                         <outlet property="drawButton" destination="kac-4x-ZJd" id="67C-WP-zVB"/>
                         <outlet property="imageView" destination="S93-Mc-JAV" id="zt1-yx-7Zg"/>
+                        <outlet property="infoButton" destination="CvT-M2-W6a" id="xbv-IO-K8C"/>
                         <outlet property="redoButton" destination="ECP-8L-JqO" id="RaN-IF-Bwz"/>
                         <outlet property="scrollView" destination="WVc-p9-xSm" id="IR0-lW-CM2"/>
                         <outlet property="toolbar" destination="PsP-Qn-U6e" id="mfU-HX-tEW"/>
                         <outlet property="undoButton" destination="Muy-mA-apf" id="xda-Ou-OpT"/>
                         <segue destination="5Sj-mJ-Vdb" kind="push" identifier="EditToDetails" id="q2s-0h-WOb"/>
+                        <segue destination="aXb-ZK-Fzs" kind="push" identifier="ImageInfo" id="8zw-6n-aPZ"/>
                     </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="910" y="-506"/>
+        </scene>
+        <!--Image Info View Controller - Image Info-->
+        <scene sceneID="W2B-LN-bSM">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xn3-hM-qIj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController title="Image Info" id="aXb-ZK-Fzs" customClass="SCImageInfoViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="S26-zr-kXU">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageInfoCell" id="LXD-1O-tcK">
+                                <rect key="frame" x="0.0" y="46" width="320" height="46"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="10" y="1" width="280" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="aXb-ZK-Fzs" id="nYe-Ir-4NN"/>
+                            <outlet property="delegate" destination="aXb-ZK-Fzs" id="7cg-fL-fiO"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Image Info" id="hU3-Aa-ViC">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="STX-LP-0nD"/>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="FI1-eS-bCe" kind="push" identifier="SetLanguage" id="lcp-wp-lDr"/>
+                    </connections>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="1337" y="-521"/>
         </scene>
         <!--Translate View Controller - Translate-->
         <scene sceneID="qc6-Iw-hFD">
@@ -782,6 +818,7 @@
                 <relationship kind="action" name="handleActionButton:"/>
                 <relationship kind="action" name="handleCropButton:"/>
                 <relationship kind="action" name="handleDrawButton:"/>
+                <relationship kind="action" name="handleInfoButton:"/>
                 <relationship kind="action" name="handleRedoButton:"/>
                 <relationship kind="action" name="handleRightBarButton:"/>
                 <relationship kind="action" name="handleUndoButton:"/>
@@ -789,6 +826,7 @@
                 <relationship kind="outlet" name="cropButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="drawButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="redoButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
@@ -802,6 +840,9 @@
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="searchButton" candidateClass="UIBarButtonItem"/>
             </relationships>
+        </class>
+        <class className="SCImageInfoViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SCImageInfoViewController.h"/>
         </class>
         <class className="SCLanguageViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SCLanguageViewController.h"/>
@@ -862,6 +903,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="q2s-0h-WOb"/>
-        <segue reference="O50-fu-QCI"/>
+        <segue reference="lcp-wp-lDr"/>
     </inferredMetricsTieBreakers>
 </document>

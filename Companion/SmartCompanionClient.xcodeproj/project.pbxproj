@@ -34,6 +34,7 @@
 		4CDF363F158F9003002C9A4F /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CDF3632158F9003002C9A4F /* FBDialog.bundle */; };
 		4CDF3640158F9003002C9A4F /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CDF3638158F9003002C9A4F /* libfacebook_ios_sdk.a */; };
 		4CDF3644158F9291002C9A4F /* icon_facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CDF3643158F9291002C9A4F /* icon_facebook.png */; };
+		4CF20C5D15A18DD0009B8862 /* SCImageInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CF20C5C15A18DD0009B8862 /* SCImageInfoViewController.m */; };
 		4CF280CF1546F67900A8956D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF280CE1546F67900A8956D /* UIKit.framework */; };
 		4CF280D11546F67900A8956D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF280D01546F67900A8956D /* Foundation.framework */; };
 		4CF280D31546F67900A8956D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF280D21546F67900A8956D /* CoreGraphics.framework */; };
@@ -121,6 +122,8 @@
 		4CDF363D158F9003002C9A4F /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
 		4CDF363E158F9003002C9A4F /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		4CDF3643158F9291002C9A4F /* icon_facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_facebook.png; sourceTree = "<group>"; };
+		4CF20C5B15A18DD0009B8862 /* SCImageInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCImageInfoViewController.h; sourceTree = "<group>"; };
+		4CF20C5C15A18DD0009B8862 /* SCImageInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCImageInfoViewController.m; sourceTree = "<group>"; };
 		4CF280CA1546F67900A8956D /* SmartCompanionClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartCompanionClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF280CE1546F67900A8956D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4CF280D01546F67900A8956D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -221,6 +224,8 @@
 				4CD4FDDD15945DD900B8C2E9 /* SCPublishPhotoViewController.m */,
 				4CC303CA155DBD6F00E0330F /* SCEditViewController.h */,
 				4CC303CB155DBD6F00E0330F /* SCEditViewController.m */,
+				4CF20C5B15A18DD0009B8862 /* SCImageInfoViewController.h */,
+				4CF20C5C15A18DD0009B8862 /* SCImageInfoViewController.m */,
 				4CC303CE155DD1D600E0330F /* SCSettingsViewController.h */,
 				4CC303CF155DD1D600E0330F /* SCSettingsViewController.m */,
 				CE9DB21E1567506D00116BE9 /* SCLanguageViewController.h */,
@@ -520,6 +525,7 @@
 				4C4C0BE41585EB4900923497 /* SCGraphics.m in Sources */,
 				E5705990158DEA56006E049B /* SCDrawView.m in Sources */,
 				4CD4FDDE15945DD900B8C2E9 /* SCPublishPhotoViewController.m in Sources */,
+				4CF20C5D15A18DD0009B8862 /* SCImageInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
