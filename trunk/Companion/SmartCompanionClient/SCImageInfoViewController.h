@@ -12,5 +12,6 @@
 @interface SCImageInfoViewController : UITableViewController <SCLanguageViewDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary *tableContents;
+@property (nonatomic, strong) NSMutableDictionary *footerContents;
 
 @end

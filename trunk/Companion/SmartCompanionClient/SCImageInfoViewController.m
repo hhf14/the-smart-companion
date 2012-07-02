@@ -7,14 +7,14 @@
 //
 
 #import "SCImageInfoViewController.h"
-#define kSCCellTitle @"Image Language"
+#define kSCCellTitle @"Source Language"
 
 @interface SCImageInfoViewController ()
 
 @end
 
 @implementation SCImageInfoViewController
-@synthesize tableContents;
+@synthesize tableContents, footerContents;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
 {
@@ -54,6 +54,8 @@
     
     tableContents = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                      NSLocalizedString(sourceLang, nil), kSCCellTitle, nil];
+    footerContents = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                      NSLocalizedString(@"SourceLangFooterStr", nil), kSCCellTitle, nil];
 }
 
 - (void)viewDidUnload
@@ -79,10 +81,10 @@
 	return [tableContents.allKeys objectAtIndex:section];
 }
 
-//- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-//{
-//    
-//}
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return [footerContents valueForKey:[footerContents.allKeys objectAtIndex:section]];
+}
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
 	return 1;
