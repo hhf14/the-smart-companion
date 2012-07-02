@@ -29,6 +29,7 @@
 @synthesize redoButton;
 @synthesize actionButton;
 @synthesize drawButton;
+@synthesize infoButton;
 @synthesize scrollView;
 @synthesize toolbar;
 @synthesize imageView, image;
@@ -157,6 +158,10 @@
         [self.navigationItem.rightBarButtonItem setTitle:@"Apply"];
         [self.view addSubview: drawView];
     }    
+}
+
+- (IBAction)handleInfoButton:(id)sender {
+    [self performSegueWithIdentifier:@"ImageInfo" sender:self];
 }
 
 
@@ -404,6 +409,7 @@
     [self setCropButton:nil];
     [self setScrollView:nil];
     [self setDrawButton:nil];
+    [self setInfoButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
