@@ -30,6 +30,9 @@
 // Details Screen
 "CommentPlaceholderStr" = "Input comment here...";
 
+// ImageInfo Screen
+"SourceLangFooterStr" = "Source language is the language of text-based information within the image. It will be used in text detection step.";
+
 // Languages
 "Slovak" = "Slovak";
 "Italian" = "Italian";
