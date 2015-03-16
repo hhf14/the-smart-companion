@@ -1,0 +1,1 @@
+An iOS-based application that helps travelers to understand all text-based information within signboards, announcements, restaurant menus, etc. in foreign language using device's built-in camera. The application explores the advantages of an open source OCR engine named Tesseract.
